@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import { useContext, useState } from "react";
+import "./App.css";
+import Button from "@mui/material/Button";
+import axios from "axios";
 
 function App() {
+  const [user, setUser] = useState([]);
+
+  const handleClick = async () => {
+    const tempArr = [];
+    axios.get("http://localhost:3003/stuff").then((res) => {
+      for (let i = 0; i < res.data.length; i++) {
+        tempArr.push(res.data[i]);
+      }
+      setUser(tempArr);
+    });
+  };
+  console.log(user[0]);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p>{user.first_name}</p>
+      <Button onClick={handleClick} variant="outlined" color="primary">
+        Hello
+      </Button>
     </div>
   );
 }
